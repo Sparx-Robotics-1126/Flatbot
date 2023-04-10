@@ -14,25 +14,16 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.Acquisition.MoveTo;
 // import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.Autonomous.BalanceLongRobot;
 import frc.robot.commands.Autonomous.BalanceShortRobot;
-import frc.robot.commands.Autonomous.LongComm;
-import frc.robot.commands.Autonomous.ReverseHighBalance;
-import frc.robot.commands.Autonomous.ReverseLongMid;
-import frc.robot.commands.Autonomous.ReverseShortBalance;
-import frc.robot.commands.Autonomous.ReverseShortComm;
-import frc.robot.commands.Autonomous.ShortComm;
-import frc.robot.commands.Drive.DriveDistance;
-import frc.robot.commands.Drive.DriveDistanceCmd;
 import frc.robot.commands.Drive.DriveMeasurements;
 import frc.robot.subsystem.AcquisitionSubsystem;
 import frc.robot.subsystem.DriveSubsystem;
 import frc.robot.subsystem.PigeonSubsystem;
 import frc.robot.subsystem.ShuffleSubsystem;
 import frc.robot.sensors.Limelight;
-import static frc.robot.Constants.FieldConstants.*;
+
 
 import java.util.ArrayList;
 
@@ -158,29 +149,6 @@ public class RobotContainer {
         m_operatorController.rightTrigger()
         .onTrue(new InstantCommand(() -> m_robotAcquisition.grabberClose()));
 
-        // // Return To Home
-        m_operatorController.a()
-        .onTrue(new MoveTo(0, 0, m_robotAcquisition));
-
-        // // Get from Human Shelf
-        m_operatorController.y()
-        .onTrue(new MoveTo(SHELF_X, SHELF_Y, m_robotAcquisition));
-
-        // // Score Mid Cube
-        m_operatorController.x().and(m_operatorController.leftBumper().negate())
-        .onTrue(new MoveTo(MID_CUBE_X, MID_CUBE_Y, m_robotAcquisition));
-
-        // // Score Mid Cone
-        m_operatorController.b().and(m_operatorController.leftBumper().negate())
-        .onTrue(new MoveTo(MID_CONE_X, MID_CONE_Y, m_robotAcquisition));
-
-        // // Score Cube High
-        m_operatorController.x().and(m_operatorController.leftBumper())
-        .onTrue(new MoveTo(HIGH_CONE_X, HIGH_CUBE_Y, m_robotAcquisition));
-
-        // // Score Cone High
-        m_operatorController.b().and(m_operatorController.leftBumper())
-        .onTrue(new MoveTo(HIGH_CONE_X, HIGH_CONE_Y, m_robotAcquisition));
 
        //operatorController.a(m_controllerEventLoop).and(m_operatorController.b(m_controllerEventLoop));
 
@@ -220,13 +188,7 @@ public class RobotContainer {
         
        _chooser.addOption("Do Nothing", () -> new InstantCommand());
         //_chooser.addOption("NewDistance", () -> new DriveDistanceCmd(m_robotDrive, 1, .75));
-        _chooser.addOption("Short Comm", () -> new ShortComm(m_robotDrive, getAcquisition()));
-        _chooser.addOption("Long Comm", () -> new LongComm(m_robotDrive, getAcquisition()));
-       // _chooser.addOption("R Short",  () -> new ReverseShortComm(m_robotDrive, m_robotAcquisition) );
-        _chooser.addOption("R Mid Balance",  () -> new ReverseShortBalance(m_robotDrive, m_robotAcquisition) );
-       // _chooser.addOption("R High Balance",  () -> new ReverseHighBalance(m_robotDrive, m_robotAcquisition) );
-        _chooser.addOption("R Mid Long Balance", () -> new ReverseLongMid(m_robotDrive, m_robotAcquisition));
-        SmartDashboard.putData("AUTO CHOICES ", _chooser); 
+
     }
 
     public void configureShuffleboard() {
@@ -357,15 +319,6 @@ public class RobotContainer {
 
     } 
     
-
-    // public void EndEndGameRumble() {
-    //     if(DriverStation.getMatchTime() > DriveConstants.StopRumble ) {
-    //         m_xboxController.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
-    //         m_xboxController.setRumble(GenericHID.RumbleType.kRightRumble,0);
-    //         System.out.println("Rumble stopped");
-    //     }
-    // }
-
     /**
      * Update all of the subsystems
      * This is run in a separate loop at a faster rate to:
